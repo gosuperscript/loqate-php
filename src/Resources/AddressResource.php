@@ -30,10 +30,11 @@ class AddressResource extends BaseResource
     }
 
     /**
+     * @param list<string> | array<string, string> $with
      * @return Collection<array-key, Address>
      */
-    public function retrieve(string $id): Collection
+    public function retrieve(string $id, array $with = []): Collection
     {
-        return $this->connector->send(new RetrieveRequest($id))->dtoOrFail();
+        return $this->connector->send(new RetrieveRequest($id, $with))->dtoOrFail();
     }
 }

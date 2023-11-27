@@ -3,34 +3,36 @@
 namespace Superscript\Loqate\Data;
 
 use Illuminate\Support\Collection;
-use Spatie\LaravelData\Data;
 
-final class Address
+final readonly class Address
 {
     public function __construct(
-        public readonly string $id,
-        public readonly ?string $line1,
-        public readonly ?string $line2,
-        public readonly ?string $line3,
-        public readonly ?string $line4,
-        public readonly ?string $line5,
-        public readonly ?string $street,
-        public readonly ?string $company,
-        public readonly ?string $buildingNumber,
-        public readonly ?string $buildingName,
-        public readonly ?string $postalCode,
-        public readonly ?string $city,
-        public readonly ?string $countryIso2,
-        public readonly ?string $countryIso3,
-        public readonly ?string $countryIsoNumber,
-        public readonly ?string $countryName,
+        public string $id,
+        public ?string $line1,
+        public ?string $line2,
+        public ?string $line3,
+        public ?string $line4,
+        public ?string $line5,
+        public ?string $street,
+        public ?string $company,
+        public ?string $buildingNumber,
+        public ?string $buildingName,
+        public ?string $postalCode,
+        public ?string $city,
+        public ?string $countryIso2,
+        public ?string $countryIso3,
+        public ?string $countryIsoNumber,
+        public ?string $countryName,
+        /** array<string, mixed> */
+        public array $extra = [],
     ) {
     }
 
     /**
      * @param array<string, mixed> $payload
+     * @param list<string>
      */
-    public static function fromArray(array $payload): self
+    public static function fromArray(array $payload, array $fields): self
     {
         return new self(
             id: $payload['Id'],
@@ -49,6 +51,9 @@ final class Address
             countryIso3: $payload['CountryIso3'],
             countryIsoNumber: $payload['CountryIsoNumber'],
             countryName: $payload['CountryName'],
+            extra: collect($fields)
+                ->mapWithKeys(fn (string $field, int $index) => [$field => $payload[sprintf('Field%d', $index + 1)]])
+                ->all(),
         );
     }
 
@@ -64,10 +69,11 @@ final class Address
     }
 
     /**
+     * @param list<string> $fields
      * @return Collection<array-key, self>
      */
-    public static function collection(iterable $items): Collection
+    public static function collection(iterable $items, array $fields = []): Collection
     {
-        return Collection::make($items)->map(fn (array $item) => self::fromArray($item));
+        return Collection::make($items)->map(fn (array $item) => self::fromArray($item, $fields));
     }
 }

@@ -3,6 +3,9 @@
 namespace Superscript\Loqate\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
+use Saloon\Config;
+use Saloon\Http\Faking\MockClient;
+use Saloon\Http\Faking\MockResponse;
 use Superscript\Loqate\Loqate;
 
 abstract class IntegrationTestCase extends BaseTestCase
@@ -11,10 +14,17 @@ abstract class IntegrationTestCase extends BaseTestCase
 
     protected function setUp(): void
     {
-        if (! isset($_ENV['LOQATE_API_KEY'])) {
-            $this->markTestSkipped('Please provide a LOQATE_API_KEY to run the integration tests.');
-        }
+        Config::preventStrayRequests();
 
-        $this->loqate = new Loqate($_ENV['LOQATE_API_KEY']);
+        $this->loqate = (new Loqate($_ENV['LOQATE_API_KEY']));
+
+        $this->withFixture($this->name());
+    }
+
+    public function withFixture(string $name): self
+    {
+        $this->loqate->withMockClient(new MockClient([MockResponse::fixture($name)]));
+
+        return $this;
     }
 }

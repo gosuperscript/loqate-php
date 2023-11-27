@@ -18,3 +18,27 @@ it('can retrieve an address', function () {
 
     expect($response->first())->toBeInstanceOf(Address::class);
 });
+
+it('can retrieve an address with extra fields', function () {
+    $response = $this->loqate->address()->retrieve(
+        id: 'US|US|B|Z228061793|1',
+        with: ['latitude', 'longitude'],
+    );
+
+    expect($response->first())->toBeInstanceOf(Address::class)
+        ->extra->latitude->not->toBeEmpty()
+        ->extra->longitude->not->toBeEmpty()
+        ->extra->notThere->toBeEmpty();
+});
+
+it('can retrieve an address with custom formats', function () {
+    $response = $this->loqate->address()->retrieve(
+        id: 'US|US|B|Z228061793|1',
+        with: [
+            'coordinates' => '{Latitude},{Longitude}'
+        ],
+    );
+
+    expect($response->first())->toBeInstanceOf(Address::class)
+        ->extra->coordinates->not->toBeEmpty();
+});
