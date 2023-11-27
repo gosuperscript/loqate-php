@@ -27,6 +27,8 @@ final class RetrieveRequest extends Request
 
         if (array_is_list($this->with)) {
             $this->with = collect($this->with)->mapWithKeys(fn ($field) => [$field => sprintf('{%s}', self::studly($field))])->all();
+        } else {
+            Assert::isMap($this->with);
         }
 
         $this->fields = array_keys($this->with);
