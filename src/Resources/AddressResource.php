@@ -5,11 +5,10 @@ namespace Superscript\Loqate\Resources;
 
 use Illuminate\Support\Collection;
 use Saloon\Http\BaseResource;
-use Saloon\Http\Response;
+use Superscript\Loqate\Data\Address;
 use Superscript\Loqate\Data\Feature;
 use Superscript\Loqate\Requests\Capture\FindRequest;
 use Superscript\Loqate\Requests\Capture\RetrieveRequest;
-use Superscript\Loqate\Responses\Capture\FindResponse;
 
 class AddressResource extends BaseResource
 {
@@ -30,6 +29,9 @@ class AddressResource extends BaseResource
         ))->dtoOrFail();
     }
 
+    /**
+     * @return Collection<array-key, Address>
+     */
     public function retrieve(string $id): Collection
     {
         return $this->connector->send(new RetrieveRequest($id))->dtoOrFail();
