@@ -23,8 +23,7 @@ final readonly class Address
         public ?string $countryIso3,
         public ?string $countryIsoNumber,
         public ?string $countryName,
-        /** array<string, mixed> */
-        public array $extra = [],
+        public object $extra,
     ) {
     }
 
@@ -51,7 +50,7 @@ final readonly class Address
             countryIso3: $payload['CountryIso3'],
             countryIsoNumber: $payload['CountryIsoNumber'],
             countryName: $payload['CountryName'],
-            extra: collect($fields)
+            extra: (object) collect($fields)
                 ->mapWithKeys(fn (string $field, int $index) => [$field => $payload[sprintf('Field%d', $index + 1)]])
                 ->all(),
         );
