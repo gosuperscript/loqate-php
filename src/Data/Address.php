@@ -3,6 +3,7 @@
 namespace Superscript\Loqate\Data;
 
 use Illuminate\Support\Collection;
+use stdClass;
 
 final readonly class Address
 {
@@ -23,7 +24,7 @@ final readonly class Address
         public ?string $countryIso3,
         public ?string $countryIsoNumber,
         public ?string $countryName,
-        public object $extra,
+        public stdClass $extra,
     ) {
     }
 
