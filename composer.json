@@ -2,11 +2,7 @@
     "name": "gosuperscript/loqate-php",
     "description": "Loqate API integration with Saloon",
     "type": "library",
-    "require": {
-        "php": "^8.2",
-        "saloonphp/saloon": "^3.0",
-        "illuminate/collections": "^10.0"
-    },
+    "license": "MIT",
     "keywords": [
         "saloon",
         "sdk",
@@ -20,7 +16,16 @@
             "email": "erik.gaal@gosuperscript.com"
         }
     ],
-    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "illuminate/collections": "^10.0",
+        "saloonphp/saloon": "^3.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.13",
+        "pestphp/pest": "^2.24",
+        "phpstan/phpstan": "^1.10"
+    },
     "autoload": {
         "psr-4": {
             "Superscript\\Loqate\\": "src/"
@@ -28,15 +33,13 @@
     },
     "autoload-dev": {
         "psr-4": {
-          "Superscript\\Loqate\\Tests\\": "tests/"
+            "Superscript\\Loqate\\Tests\\": "tests/"
         }
     },
-    "require-dev": {
-        "pestphp/pest": "^2.24",
-        "phpstan/phpstan": "^1.10",
-        "laravel/pint": "^1.13"
-    },
     "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
