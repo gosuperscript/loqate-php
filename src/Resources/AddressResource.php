@@ -17,9 +17,9 @@ class AddressResource extends BaseResource
      */
     public function find(
         string $text,
-        string $container = null,
+        ?string $container = null,
         bool $deduplicate = false,
-        string $countryCode = null,
+        ?string $countryCode = null,
     ): Collection {
         return $this->connector->send(new FindRequest(
             text: $text,
